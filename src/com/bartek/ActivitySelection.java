@@ -50,6 +50,18 @@ public class ActivitySelection {
         return result;
     }
 
+    public static int calculateNumberOfLectureHalls(List<Activity> activities) {
+        int count = 0;
+        while (!activities.isEmpty()) {
+            List<Activity> results = chooseMaximumSetIterative(activities);
+            activities.removeAll(results);
+            count++;
+        }
+
+        return count;
+
+    }
+
     public static class Activity {
         public final int start;
         public final int finish;

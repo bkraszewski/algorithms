@@ -31,6 +31,25 @@ public class ActivitySelectionTest {
         Assert.assertEquals(4, result.size());
     }
 
+    @Test
+    public void testSingleActivity() {
+        List<Activity> activities = createDataset().subList(0,1);
+
+        Collection<ActivitySelection.Activity>result = ActivitySelection.chooseMaximumSetIterative(activities);
+        System.out.println(result);
+
+        Assert.assertEquals(1, result.size());
+    }
+
+    @Test
+    public void testNumberOfLectureHallsForActivities(){
+        List<Activity>activities = createDataset();
+
+        int result = ActivitySelection.calculateNumberOfLectureHalls(activities);
+        System.out.println(result);
+        Assert.assertEquals(6, result);
+    }
+
     private List<Activity> createDataset() {
         List<Activity> activities = new ArrayList<>();
         activities.add(new Activity(1, 4));
