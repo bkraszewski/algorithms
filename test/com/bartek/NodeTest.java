@@ -70,6 +70,50 @@ public class NodeTest {
 
     }
 
+    @Test
+    public void shouldRemoveMiddleElementWithoutAccessToHead(){
+        Node<Integer>node = createLinkedList();
+        Node<Integer> middle = node.rewind(2);
+
+        node.printValues();
+        //delete node with value 4
+        middle.deleteCurrent();
+        node.printValues();
+
+
+    }
+
+    @Test
+    public void shouldSplitArrayByValue(){
+        Node<Integer>node = createLinkedList();
+        node.splitBy(4);
+        node.printValues();
+    }
+
+    @Test
+    public void shouldSplitArrayByValueUsingTwoLists(){
+        Node<Integer>node = createLinkedList();
+        Node<Integer> splited = node.splitByUsingTwoLists(4);
+        splited.printValues();
+    }
+
+    @Test
+    public void shouldAddNumbersOnLinkedLists(){
+        Node<Integer>first = new Node<>();
+        first.addNode(7);
+        first.addNode(1);
+        first.addNode(6);
+        first.addNode(9);
+
+        Node<Integer>second = new Node<>();
+        second.addNode(5);
+        second.addNode(9);
+        second.addNode(2);
+
+        Node<Integer>result = first.addNumbers(second.head);
+        result.printValues();
+    }
+
     private Node<Integer> createLinkedList() {
         Node<Integer> node = new Node<>();
         node.addNode(3);

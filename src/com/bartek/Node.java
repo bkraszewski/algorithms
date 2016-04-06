@@ -8,7 +8,7 @@ import java.util.Set;
 public class Node<T> {
     public T data;
     private Node<T> next = null;
-    private Node<T> head = null;
+    public Node head = null;
 
     public int size = 1;
 
@@ -38,7 +38,7 @@ public class Node<T> {
     }
 
     public void printValues() {
-        Node iter = head;
+        Node iter = this;
         while (iter != null) {
             System.out.print(iter.data + ",");
             iter = iter.next;
@@ -156,6 +156,150 @@ public class Node<T> {
         }
 
         return node;
+    }
+
+    public Node<T> rewind(int howMany) {
+        Node<T> iter = head;
+        for (int i = 0; i < howMany; i++) {
+            if (iter.next != null) {
+                iter = iter.next;
+            }
+        }
+
+        return iter;
+    }
+
+    public void deleteCurrent() {
+        if (next == null) {
+            //dont work if its last element
+            return;
+        }
+
+        this.data = next.data;
+        this.next = next.next;
+        size--;
+    }
+
+    public void splitBy(Integer k) {
+        Node<Integer> n = head;
+
+        while (n != null) {
+            if (n.data > k) {
+                //swap all future smaller with me
+                swapNextSmaller(n, k);
+            } else {
+                //its ok, do nothing
+            }
+
+            n = n.next;
+        }
+    }
+
+    private void swapNextSmaller(Node<Integer> n, Integer k) {
+        Node<Integer> iter = n;
+        while (iter.next != null) {
+            iter = iter.next;
+
+            if (iter.data < k) {
+                //swap with first
+                Integer data = n.data;
+                n.data = iter.data;
+                iter.data = data;
+            }
+        }
+    }
+
+    public Node splitByUsingTwoLists(Integer k) {
+        Node<Integer> smallerHead = null;
+        Node<Integer> smallerTail = null;
+
+        Node<Integer> biggerHead = null;
+        Node<Integer> biggerTail = null;
+
+        Node<Integer> iter = head;
+        while (iter != null) {
+
+            Node next = iter.next;
+            iter.next = null;
+            if (iter.data < k) {
+                //add to smaller list
+                if (smallerHead == null) {
+                    smallerHead = iter;
+                    smallerTail = iter;
+                } else {
+                    smallerTail.next = iter;
+                    smallerTail = iter;
+                }
+            } else {
+                if (biggerHead == null) {
+                    biggerHead = iter;
+                    biggerTail = iter;
+                } else {
+                    biggerTail.next = iter;
+                    biggerTail = iter;
+                }
+            }
+
+            iter = next;
+
+        }
+
+        //merge two lists;
+
+        Node<Integer> returnedList = null;
+        if (smallerHead != null) {
+            returnedList = smallerHead;
+        } else {
+            returnedList = biggerHead;
+            return returnedList;
+        }
+
+        if (biggerTail != null) {
+            smallerTail.next = biggerHead;
+        }
+
+        return returnedList;
+    }
+
+    public Node<Integer> addNumbers(Node<Integer> node) {
+        if (node == null) {
+            throw new IllegalArgumentException("Cant pass null");
+        }
+
+        Node<Integer> first = head;
+        Node<Integer> second = node;
+        Node<Integer> result = new Node<>();
+        int offset = 0;
+
+        while (first != null || second != null) {
+            if (first == null) {
+                offset = saveAddResultWithOffset(0, second.data, offset, result);
+            } else if (second == null) {
+                offset = saveAddResultWithOffset(first.data, 0, offset, result);
+            } else {
+                offset = saveAddResultWithOffset(first.data, second.data, offset, result);
+            }
+
+            if (first != null) {
+                first = first.next;
+            }
+            if (second != null) {
+                second = second.next;
+            }
+        }
+
+        if (offset > 0) {
+            result.addNode(offset);
+        }
+
+        return result.head;
+
+    }
+
+    private int saveAddResultWithOffset(int first, int second, int offset, Node<Integer> result) {
+        int value = first + second + offset;
+        result.addNode(value < 10 ? value : value % 10);
+        return value / 10;
     }
 
     private class IntWrapper {
