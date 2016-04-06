@@ -1,6 +1,8 @@
 package com.bartek;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Node<T> {
@@ -118,5 +120,45 @@ public class Node<T> {
             prev = iter;
             iter = iter.next;
         }
+    }
+
+    public T getItemFromEnd(int indexFromExit) {
+        int index = 0;
+        Map<Integer, T> map = new HashMap<>();
+
+        Node<T> iter = head;
+        while (iter != null) {
+            map.put(index++, iter.data);
+            iter = iter.next;
+        }
+
+        if (index - indexFromExit - 1 >= 0) {
+            return map.get(index - indexFromExit - 1);
+        }
+
+        throw new IllegalArgumentException("Not enought elements in list");
+    }
+
+    public T getItemFromEndRecursive(int indexFromEnd) {
+        Node<T> data = scanIter(head, indexFromEnd, new IntWrapper());
+        return data.data;
+    }
+
+    private Node<T> scanIter(Node<T> iter, int n, IntWrapper wrapper) {
+        if (iter == null) {
+            return null;
+        }
+
+        Node<T> node = scanIter(iter.next, n, wrapper);
+        wrapper.index++;
+        if (wrapper.index == n) {
+            return iter;
+        }
+
+        return node;
+    }
+
+    private class IntWrapper {
+        int index = -1;
     }
 }
