@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CircusTowerBuilderTest {
@@ -25,5 +26,9 @@ public class CircusTowerBuilderTest {
         Assert.assertEquals(new CircusTowerBuilder.Person(68, 110), results.get(3));
         Assert.assertEquals(new CircusTowerBuilder.Person(70, 150), results.get(4));
         Assert.assertEquals(new CircusTowerBuilder.Person(75, 190), results.get(5));
+        Assert.assertEquals(6, results.size());
+
+
+
     }
 }
