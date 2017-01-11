@@ -1,8 +1,9 @@
 package com.bartek.coursera;
 
-import com.bartek.QuickSort;
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class QuickSortExercises {
     private static final int MODE_FIRST = 1;
@@ -30,33 +31,71 @@ public class QuickSortExercises {
     }
 
     private static int partition(int[] array, int low, int high, int mode) {
-        int x;
+        int pivot;
+        int pivotIndex;
         if (mode == MODE_FIRST) {
-            x = array[low + 1];
+            pivotIndex = low;
         } else if (mode == MODE_LAST) {
-            x = array[high];
+            pivotIndex = high;
         } else {
-            x = array[(high + low)/2];
+            pivotIndex = (high + low) / 2;
+
         }
 
-        int i = low - 1;
-        numberOfComparisons += high  - low;
-        for (int j = low; j <= high - 1; j++) {
-            if (array[j] <= x) {
-                i = i + 1;
+        pivot = array[pivotIndex];
+
+        if (mode == MODE_LAST) {
+            int temp = array[pivotIndex];
+            array[pivotIndex] = array[low];
+            array[low] = temp;
+            pivotIndex = low;
+        }
+
+        if (mode == MODE_MEDIAN) {
+
+            int pivotLow = array[low];
+            int pivotHigh = array[high];
+            int pivotMed = array[(low + high ) / 2];
+
+            List<Integer> sublist = Arrays.asList(pivotLow, pivotMed, pivotHigh);
+            Collections.sort(sublist);
+
+            int medValue = sublist.get(1);
+
+            for (int j = low; j <= high; j++) {
+                if (array[j] == medValue) {
+                    pivotIndex = j;
+                    pivot = medValue;
+                    break;
+                }
+            }
+
+            int temp = array[pivotIndex];
+            array[pivotIndex] = array[low];
+            array[low] = temp;
+            pivotIndex = low;
+        }
+
+        int i = low + 1;
+        int current;
+
+        numberOfComparisons += high - low;
+
+        for (int j = low + 1; j <= high; j++) {
+            current = array[j];
+            if (array[j] <= pivot) {
+
                 //exchange a[i] with a[j]
-                int temp = array[j];
                 array[j] = array[i];
-                array[i] = temp;
+                array[i] = current;
+                i++;
             }
         }
 
-
-        //exchange a[i +1] with a[high]
-        int temp = array[high];
-        array[high] = array[i + 1];
-        array[i + 1] = temp;
-        return i + 1;
+        current = array[i - 1];
+        array[i - 1] = pivot;
+        array[pivotIndex] = current;
+        return i - 1;
     }
 
     public static int quickSortSelectFirst(int[] array) {

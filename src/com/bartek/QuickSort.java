@@ -34,8 +34,6 @@ public class QuickSort {
             }
         }
 
-        Collections.sort();
-
         //exchange a[i +1] with a[high]
         int temp = array[high];
         array[high] = array[i + 1];
