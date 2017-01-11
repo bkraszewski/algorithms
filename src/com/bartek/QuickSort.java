@@ -1,6 +1,7 @@
 package com.bartek;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class QuickSort {
 
@@ -32,6 +33,8 @@ public class QuickSort {
                 array[i] = temp;
             }
         }
+
+        Collections.sort();
 
         //exchange a[i +1] with a[high]
         int temp = array[high];
