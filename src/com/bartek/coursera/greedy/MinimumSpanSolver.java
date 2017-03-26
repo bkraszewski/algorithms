@@ -1,5 +1,9 @@
 package com.bartek.coursera.greedy;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * In this programming problem you'll code up Prim's minimum spanning tree algorithm.
  * <p>
@@ -28,4 +32,47 @@ package com.bartek.coursera.greedy;
  * probably need to maintain some kind of mapping between vertices and their positions in the heap.
  */
 public class MinimumSpanSolver {
+    public static long countMinimumSpanningCost(Graph tree) {
+
+        int first = tree.firstKey;
+        System.out.println("Staring from: " + first);
+        int current = first;
+        long totalCost = 0;
+
+        Set<Integer> minimumSpanningTree = new HashSet<>();
+        minimumSpanningTree.add(first);
+        List<Graph.Edge> options = tree.graph.get(current);
+
+        while (minimumSpanningTree.size() != tree.vertexes) {
+
+            int to = 0;
+            long cost = Long.MAX_VALUE;
+            Graph.Edge bestEdge = null;
+            for (Graph.Edge edge : options) {
+                if (!minimumSpanningTree.contains(edge.to) && edge.cost < cost) {
+                    to = edge.to;
+                    cost = edge.cost;
+                    bestEdge = edge;
+                }
+            }
+
+            totalCost += cost;
+            options.remove(bestEdge);
+            System.out.println("Choosen edge from: " + bestEdge.from + ", next path is: " + to + " with a cost: " + cost);
+            minimumSpanningTree.add(to);
+
+            if (tree.graph.get(to) != null) {
+                for (Graph.Edge edge : tree.graph.get(to)) {
+                    if (!options.contains(edge)) {
+                        options.add(edge);
+                    }
+                }
+//                options.addAll(tree.graph.get(to));
+
+            }
+
+        }
+
+        return totalCost;
+    }
 }

@@ -56,7 +56,7 @@ public class GreedyJobsSolver {
      */
     public static long calculateJobsTimeSumForRatio(List<Job> input) {
         return calculateJobsTime(new ArrayList(input), (o1, o2) ->
-                (int)Math.floor(o2.ratio - o1.ratio)
+                Double.compare(o2.ratio, o1.ratio)
         );
     }
 

@@ -30,7 +30,7 @@ public class GreedyJobSolverTest {
     public void shouldCalculateSumFor1000InputsSubstract() throws IOException {
 
         List<Job> jobs = GreedyDataReader.readFile("./data/greedy/1000.txt");
-        Assert.assertEquals(0, GreedyJobsSolver.calculateJobsTimeSumForSubstracting(jobs));
+        Assert.assertEquals(69119377652L, GreedyJobsSolver.calculateJobsTimeSumForSubstracting(jobs));
     }
 
     @Test
@@ -44,6 +44,6 @@ public class GreedyJobSolverTest {
     public void shouldCalculateSumFor1000InputsRatio() throws IOException {
 
         List<Job> jobs = GreedyDataReader.readFile("./data/greedy/1000.txt");
-        Assert.assertEquals(0, GreedyJobsSolver.calculateJobsTimeSumForRatio(jobs));
+        Assert.assertEquals(67311454237L, GreedyJobsSolver.calculateJobsTimeSumForRatio(jobs));
     }
 }
