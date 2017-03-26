@@ -41,7 +41,7 @@ public class MinimumSpanSolver {
 
         Set<Integer> minimumSpanningTree = new HashSet<>();
         minimumSpanningTree.add(first);
-        List<Graph.Edge> options = tree.graph.get(current);
+        Set<Graph.Edge> options = tree.graph.get(current);
 
         while (minimumSpanningTree.size() != tree.vertexes) {
 
@@ -67,10 +67,7 @@ public class MinimumSpanSolver {
                         options.add(edge);
                     }
                 }
-//                options.addAll(tree.graph.get(to));
-
             }
-
         }
 
         return totalCost;

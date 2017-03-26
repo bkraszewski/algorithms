@@ -6,7 +6,7 @@ public class Graph {
     public final int vertexes;
     public final int edges;
 
-    public final Map<Integer, List<Edge>> graph = new HashMap<>();
+    public final Map<Integer, Set<Edge>> graph = new HashMap<>();
     public final int firstKey;
 
     public Graph(int vertexes, int edges, List<String> edgeInfo) {
@@ -27,7 +27,6 @@ public class Graph {
             if (first == Integer.MIN_VALUE) {
                 first = key;
             }
-
 
             Edge edge1 = new Edge(key, Integer.valueOf(info[1]), Long.valueOf(info[2]));
             addEdge(key, edge1);
@@ -50,7 +49,7 @@ public class Graph {
     private void addEdge(int key, Edge edge) {
         if (graph.get(key) == null) {
             //TODO replace with sorted set
-            graph.put(key, new ArrayList<>());
+            graph.put(key, new HashSet<>());
         }
 
         if (!alreadyExists(edge)) {
