@@ -6,13 +6,21 @@ public class Graph {
     public final int vertexes;
     public final int edges;
 
-    public final Map<Integer, Set<Edge>> graph = new HashMap<>();
+    public final Map<Integer, Set<Edge>> graph;
     public final int firstKey;
+
+    private Graph(int vertexes, int edges, Map<Integer, Set<Edge>> edgeInfo) {
+        this.vertexes = vertexes;
+        this.edges = edges;
+        this.graph = edgeInfo;
+        this.firstKey = graph.keySet().stream().findAny().get();
+    }
 
     public Graph(int vertexes, int edges, List<String> edgeInfo) {
 
         this.vertexes = vertexes;
         this.edges = edges;
+        this.graph = new HashMap<>();
 
         int first = Integer.MIN_VALUE;
 
@@ -36,6 +44,24 @@ public class Graph {
         }
 
         this.firstKey = first;
+    }
+
+    public Graph removeReversedEdges() {
+        HashMap<Integer, Set<Edge>> graphCopy = new HashMap<>(graph);
+        for (Set<Edge> edges : graphCopy.values()) {
+            for (Iterator<Edge> it = edges.iterator(); it.hasNext(); ) {
+                Edge edge = it.next();
+                if (edgeExistsAsReversed(edge, edges)) {
+                    it.remove();
+                }
+            }
+        }
+
+        return new Graph(vertexes, edges, graphCopy);
+    }
+
+    private boolean edgeExistsAsReversed(Edge edge, Set<Edge> edges) {
+        return edges.stream().anyMatch(edge1 -> edge.isReversed(edge));
     }
 
     private boolean alreadyExists(Edge reversed) {
@@ -96,11 +122,14 @@ public class Graph {
         @Override
         public String toString() {
             return "Edge{" +
-                    "to=" + to +
+                    "from=" + from +
+                    ", to=" + to +
                     ", cost=" + cost +
                     '}';
         }
 
-
+        public boolean isReversed(Edge edge) {
+            return (cost == edge.cost && from == edge.to && to == edge.from);
+        }
     }
 }

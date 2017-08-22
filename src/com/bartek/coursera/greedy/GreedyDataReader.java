@@ -59,7 +59,9 @@ public class GreedyDataReader {
             String size = stream.readLine();
             String[] sizeInfo = size.split("\\s+");
             vertexes = Integer.valueOf(sizeInfo[0]);
-            edges = Integer.valueOf(sizeInfo[1]);
+            if (sizeInfo.length > 1) {
+                edges = Integer.valueOf(sizeInfo[1]);
+            }
 
             List<String> lines = stream
                     .lines()
